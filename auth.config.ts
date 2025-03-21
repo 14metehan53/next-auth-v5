@@ -8,20 +8,23 @@ import bcrypt from 'bcryptjs';
 export default {
   providers: [
     Credentials({
-      authorize: async (credentials): Promise<any> => {
-        const validateFields = LoginSchema.safeParse(credentials);
-
-        if (validateFields.success) {
-          const { email, password } = validateFields.data;
-          const user = await getUserEmail(email);
-
-          if (!user || !user.password) return;
-
-          const passwordMatch = await bcrypt.compare(password, user.password);
-
-          if (passwordMatch) return user;
-
-          return;
+      // credentials: {
+      //   email: {},
+      //   password: {},
+      // },
+      async authorize(credentials): Promise<any> {
+        try {
+          const validateFields = LoginSchema.safeParse(credentials);
+          if (validateFields.success) {
+            const { email, password } = validateFields.data;
+            const user = await getUserEmail(email);
+            if (!user || !user.password) return null;
+            const passwordMatch = await bcrypt.compare(password, user.password);
+            if (passwordMatch) return user;
+            return null;
+          }
+        } catch {
+          return null;
         }
       },
     }),
