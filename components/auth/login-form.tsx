@@ -19,8 +19,15 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useState, useTransition } from 'react';
 import { login } from '@/action/login';
+import { useSearchParams } from 'next/navigation';
 
 const LoginForm = () => {
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get('error') == 'OAuthAccountNotLinked'
+      ? 'Another account already exist with the same e-mail address'
+      : '';
+
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
@@ -39,8 +46,8 @@ const LoginForm = () => {
 
     startTransition(() => {
       login(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        setError(data?.error);
+        setSuccess(data?.success);
       });
     });
   };
@@ -96,7 +103,7 @@ const LoginForm = () => {
               )}
             />
             {/* Messages */}
-            <ErrorForm message={error} />
+            <ErrorForm message={error || urlError} />
             <SuccessForm message={success} />
 
             <Button type='submit' className='w-full' disabled={isPending}>
