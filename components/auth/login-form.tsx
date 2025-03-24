@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import { useState, useTransition } from 'react';
 import { login } from '@/action/login';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -97,6 +98,13 @@ const LoginForm = () => {
                       disabled={isPending}
                     />
                   </FormControl>
+                  <Button
+                    variant={'link'}
+                    className='px-0 font-normal justify-start hover:cursor-pointer'
+                    asChild
+                  >
+                    <Link href={'/auth/reset'}>Forgot Password</Link>
+                  </Button>
                   <FormDescription></FormDescription>
                   <FormMessage />
                 </FormItem>
