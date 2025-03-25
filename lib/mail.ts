@@ -21,3 +21,12 @@ export const sendResetPasswordEmail = async (email: string, token: string) => {
     html: `<p>Click <a href="${resetLink}">here</a> reset a password</p>`,
   });
 };
+
+export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
+  await resend.emails.send({
+    from: 'Acme <onboarding@resend.dev>',
+    to: email,
+    subject: '2FA CODE - NextAuthv5[BETA]',
+    html: `<p>Your 2FA Code : ${token}</p>`,
+  });
+};
