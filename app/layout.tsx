@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { InterFont } from '@/fonts/font';
 import './globals.css';
 import { auth } from '@/auth';
+import { Toaster } from '@/components/ui/sonner';
 import { SessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
@@ -19,7 +20,10 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang='en'>
-        <body className={`${InterFont.className} antialiased`}>{children}</body>
+        <body className={`${InterFont.className} antialiased`}>
+          {children}
+          <Toaster />
+        </body>
       </html>
     </SessionProvider>
   );
