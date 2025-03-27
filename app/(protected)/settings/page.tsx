@@ -1,22 +1,20 @@
-import { auth, signOut } from '@/auth';
-import { authRoutes } from '@/routes';
+'use client';
+import { logout } from '@/action/logout';
+import { useCurrentUser } from '@/hooks/use-current-user';
+import { useSession } from 'next-auth/react';
 
-const SettingsPage = async () => {
-  const session = await auth();
+const SettingsPage = () => {
+  const session = useSession();
+  const user = useCurrentUser();
+
+  // const onClick = () => {
+  //   logout();
+  // };
 
   return (
-    <div>
-      <div>{JSON.stringify(session)}</div>
-      <div>
-        <form
-          action={async () => {
-            'use server';
-            await signOut({ redirectTo: authRoutes[0] });
-          }}
-        >
-          <button type='submit'>Sign Out</button>
-        </form>
-      </div>
+    <div className='bg-white p-4 rounded-xl'>
+      {/* <button onClick={onClick}>Sign Out</button> */}
+      {JSON.stringify(session.data)}
     </div>
   );
 };
