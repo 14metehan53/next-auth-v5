@@ -13,6 +13,9 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
+  // CVE-2025-29927 (Critical 9.1/10) For Next.js 15.x, this issue is fixed in 15.2.3
+  req.headers.delete('x-middleware-subrequest');
+
   // ROUTES
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
